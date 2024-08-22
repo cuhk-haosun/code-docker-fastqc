@@ -14,10 +14,10 @@ Code in **NGs** to run the script: **./entrypoint.sh**.
 
 # The output of entrypoint.sh
 The **./entrypoint.sh** will scan and find all fastq.gz files, and do fastqc firstly. The fastqc output will store in **/path/fastqc_output**, each fastq.gz file will one generate zip file and html file, which can be view in any web browser.
-![sample image](/fastqc&multiqc/pic/2.png)
+![sample image](/pic/2.png)
 
 The output from fastqc image will automatically input in multiQC image. The multiqc_report.html and multiqc_data are store in **/path/multiqc_output**, which can be view in any web browser.
-![sample image](/fastqc&multiqc/pic/3.png)
+![sample image](/pic/3.png)
 
 The whole successful output in terminal when run the **./entrypoint.sh**:
-![sample image](/fastqc&multiqc/pic/4.png)
+![sample image](/pic/4.png)
