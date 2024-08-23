@@ -1,9 +1,12 @@
 # code-docker-fastqc
 # Introduction for entrypoint.sh
-Develop docker to do fastqc and multiQC for all fastq.gz files, which boot automatically scans all fastq.gz files in the **/data** directory.
+Develop docker to do fastqc and multiQC for all fastq.gz files, which boot automatically scans all fastq.gz files in the **/data** directory when start docker.
 
 # How to use entrypoint.sh
-Befor run the docker, make sure the Singularity system can be used.
+Use terminal of MacOS platform as example:
+```
+docker run --platform linux/amd64 -it -v /Users/Tobby_1/Downloads/docker-cuhk/docker/docker-fastqc/data:/data tobbylyx/fastqmultiqc-container2:latest
+```
 
 Change the **WORK_DIR** in **./entrypoint.sh** to your own files **/path**.
 
