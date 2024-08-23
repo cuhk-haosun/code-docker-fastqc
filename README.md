@@ -8,7 +8,7 @@ Use terminal of **MacOS platform** as example, make sure that you have mounted t
 ```
 docker run --platform linux/amd64 -it -v /Users/Tobby_1/Downloads/docker-cuhk/docker/docker-fastqc/data:/data tobbylyx/fastqmultiqc-container2:latest
 ```
-
+![sample image](/pic/5.png)
 
 # The output of entrypoint.sh
 The **./entrypoint.sh** will scan and find all fastq.gz files, and do fastqc firstly. The fastqc output will store in **/path/fastqc_output**, each fastq.gz file will one generate zip file and html file, which can be view in any web browser.
@@ -18,4 +18,4 @@ The output from fastqc image will automatically input in multiQC image. The mult
 ![sample image](/pic/3.png)
 
 The whole successful output in terminal when run the **./entrypoint.sh**:
-![sample image](/pic/4.png)
+![sample image](/pic/6.png)
