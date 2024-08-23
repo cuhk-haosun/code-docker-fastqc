@@ -3,7 +3,7 @@
 Develop docker to do fastqc and multiQC for all fastq.gz files, which boot automatically scans all fastq.gz files in the **/data** directory when start docker.
 
 # How to use entrypoint.sh
-Use terminal of **MacOS platform** as example:
+Use terminal of **MacOS platform** as example, the image is successfully pushed to test Docker Hub repository.
 
 First, you need to pull your image from Docker Hub. You can use the TAB to pull up the latest version.
 
