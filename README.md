@@ -1,1 +1,1 @@
-#The docker of fastqc
+The docker of fastqc
