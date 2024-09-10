@@ -6,9 +6,7 @@ on:
     - cron: '11 0 */7 * *'
   push:
     paths:
-      - base/**
       - Dockerfile
-      - run.sh
 
 jobs:
   build-and-push:
@@ -33,9 +31,3 @@ jobs:
         tags: cuhkhaosun/fastqc-multiqc:latest
         platforms: linux/amd64
 
-    - name: Run fastqc and multiqc script
-      run: |
-        docker run --name fastqc-multiqc-container -v "${{ github.workspace }}/data:/data" cuhkhaosun/fastqc-multiqc:latest /entrypoint.sh
-      env:
-        FASTQC_OUTPUT_DIR: /data/fastqc_output
-        MULTIQC_OUTPUT_DIR: /data/multiqc_output
