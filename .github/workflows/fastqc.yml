@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: hk
+    runs-on: self-hosted
 
     steps:
     - name: Checkout
@@ -28,6 +28,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: cuhkhaosun/fastqc-multiqc:latest
+        tags: cuhkhaosun/multiqc:latest
         platforms: linux/amd64
 
