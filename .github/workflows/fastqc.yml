@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: debian-latest
 
     steps:
     - name: Checkout
