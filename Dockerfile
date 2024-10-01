@@ -1,6 +1,6 @@
 # docker fastqc & multiQC
 # out of cuhkhaosun/base image
-FROM cuhkhaosun/base:latest
+FROM cuhkhaosun/base
 
 LABEL maintainer="LYX"
 
