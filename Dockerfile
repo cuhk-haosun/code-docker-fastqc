@@ -24,7 +24,7 @@ RUN curl -o /data/set.thread.num.sh https://raw.githubusercontent.com/cuhk-haosu
     chmod +x /data/set.thread.num.sh
 
 # Copy entrypoint script to container
-COPY run.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 # Permission
 RUN chmod +x /entrypoint.sh
