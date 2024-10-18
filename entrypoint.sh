@@ -3,8 +3,8 @@
 # lyx 8/20/2024
 
 # working dir and output dir
-FASTQC_OUTPUT_DIR="/mnt/fastqc_output"
-MULTIQC_OUTPUT_DIR="/mnt/multiqc_output"
+FASTQC_OUTPUT_DIR="/mnt/out/fastqc"
+MULTIQC_OUTPUT_DIR="/mnt/out/multiqc"
 
 # Source the script to set THREAD_NUM
 echo -e "\e[0;34mInfo: Running set.thread.num.sh to set THREAD_NUM...\e[0m"
