@@ -9,7 +9,7 @@ This repository contains a Dockerfile to build a Docker image that runs FastQC a
 # Run manually with cmd line
 ```bash
 docker run -it --rm \
-  -v ./mnt/in:/data \
+  -v ./fastq:/mnt/in \
   ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 ```
 
