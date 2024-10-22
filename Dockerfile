@@ -17,11 +17,11 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -o Acquire::Retries=3 -y wget fastqc multiqc
 
 # Set working directory
-WORKDIR /data
+WORKDIR /root
 
 # Download the set.thread.num.sh script
-RUN curl -o /data/set.thread.num.sh https://raw.githubusercontent.com/cuhk-haosun/code-docker-script-lib/main/set.thread.num.sh && \
-    chmod +x /data/set.thread.num.sh
+RUN curl -o /root/set.thread.num.sh https://raw.githubusercontent.com/cuhk-haosun/code-docker-script-lib/main/set.thread.num.sh && \
+    chmod +x /root/set.thread.num.sh
 
 # Copy entrypoint script to container
 COPY entrypoint.sh /entrypoint.sh
