@@ -1,0 +1,343 @@
+# This is a basic workflow that is manually triggered
+
+name: Pipeline for nanopore DNA sequencing
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+  
+    # Inputs the workflow accepts.
+    inputs:
+    
+      SCRIPT_PATH:
+        description: 'Path for the bash script'
+        # Default value if no value is explicitly provided
+        default: '/share/home/grp-sunhao/zhaoxing/code-nanopore'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      INPUT_PATH:
+        description: 'Inputpath for the files'
+        # Default value if no value is explicitly provided
+        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      OUTPUT_PATH:
+        description: 'Outputpath for the files'
+        # Default value if no value is explicitly provided
+        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      JOB_NAME:
+        description: 'Give yor job a name'
+        # Default value if no value is explicitly provided
+        default: 'demo'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+
+
+      THREAD_NUM:
+        description: 'Thread number for alignment etc.'
+        # Default value if no value is explicitly provided
+        default: "8"
+        # Input has to be provided for the workflow to run
+        required: false
+        # The data type of the input
+        type: string
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  align:
+  
+    name: Alignment
+    runs-on: sz
+  
+    steps:
+    - name: Submit alignment job
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}/mapped
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          cd $SCRIPT_PATH
+          bash align.sh
+          bash wait.sh
+
+
+
+
+
+##======================================================
+## Now alignment completes let's generate SV, CNV, etc.
+
+  seq-summary:
+  
+    name: Sequencing Summary
+    runs-on: sz
+    needs: align
+    
+    steps:
+    - name: Submit job
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+          
+
+
+  # Structual Variation 
+  sv:
+  
+    name: Structual Variation 
+    runs-on: sz
+    needs: align
+    
+    steps:
+    - name: Submit job
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+          
+
+  # Structual Variation 
+  cnv:
+  
+    name: Copy Number Variation 
+    runs-on: sz
+    needs: align
+    
+    steps:
+    - name: Submit job
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+          
+
+          
+  # Signal indexing for methylation
+  methy-index:
+  
+    name: Signal Indexing 
+    runs-on: sz
+    needs: align
+    
+    steps:
+    - name: Submit job
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+          
+
+  
+  methy-5mc:
+  
+    name: Call Methylation 
+    runs-on: sz
+    needs: methy-index
+    
+    steps:
+    - name: Call 5mc
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+          
+    - name: Call 5hmc
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          date
+ 
+
+          
+          
+# wait for the anaylsis jobs to complete
+  wait-jobs:
+  
+    name: Wait Jobs to Complete 
+    runs-on: sz
+    needs: [seq-summary,sv,cnv,methy-index,methy-5mc]
+    
+    steps:
+    
+    - name: Wait job to complete
+      uses: appleboy/ssh-action@v1.0.3
+
+      env:
+        SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
+        INPUT_PATH: ${{ inputs.INPUT_PATH }}
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}
+        JOB_NAME: ${{ inputs.JOB_NAME }}
+        THREAD_NUM: ${{ inputs.THREAD_NUM }}
+      
+      with:
+        host: ${{ secrets.HOST_NGS }}
+        port: ${{ secrets.PORT_NGS }}
+        username: ${{ secrets.SSH_USERNAME_ZX }}
+        key: ${{ secrets.SSH_KEY_ZX }}
+
+        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+        
+        script: |
+          cd $SCRIPT_PATH
+          #bash wait.sh
+
+
+
+
+          
+# Upload the results to branch
+  upload-results:
+  
+    name: Upload Results 
+    runs-on: sz
+    needs: wait-jobs
+    
+    steps:
+
+    - name: Copy result from cluster
+      run: |
+             scp -r -P ${{ secrets.PORT_NGS }} \
+               ${{ secrets.SSH_USERNAME_ZX }}@${{ secrets.HOST_NGS }}:${{ inputs.OUTPUT_PATH }}/report ./
+             ls -al
+
+
+    
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch-suffix: short-commit-hash
+              
+        commit-message: |
+          Add result for ${{ inputs.JOB_NAME }}
+
+          This is auto uploaded commit
+          
+        branch: result-${{ inputs.JOB_NAME }}
+        delete-branch: true
+        
+        title: '[Demo] add report for nanopore DNA seq run ${{ inputs.JOB_NAME }}'
+        body: |
+            Update report
+            - Auto-generated by github action `Pipeline for nanopore DNA sequencing`
