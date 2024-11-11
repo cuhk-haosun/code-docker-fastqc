@@ -110,10 +110,8 @@ jobs:
         THREAD_NUM: ${{ inputs.THREAD_NUM }}
       
       with:
-        host: ${{ secrets.HOST_NGS }}
-        port: ${{ secrets.PORT_NGS }}
-        username: ${{ secrets.SSH_USERNAME_ZX }}
-        key: ${{ secrets.SSH_KEY_ZX }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
         envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
         
