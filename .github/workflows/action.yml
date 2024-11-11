@@ -64,7 +64,7 @@ jobs:
   fastqc:
 
     name: FastQC
-    runs-on: sz-cookie
+    runs-on: sz
     
     steps:
     - name: Submit FastQC job
