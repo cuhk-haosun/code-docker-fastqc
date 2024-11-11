@@ -125,7 +125,7 @@ jobs:
   
     name: Structual Variation 
     runs-on: sz
-    needs: align
+    needs: fastqc
     
     steps:
     - name: Submit job
@@ -155,7 +155,7 @@ jobs:
   
     name: Copy Number Variation 
     runs-on: sz
-    needs: align
+    needs: fastqc
     
     steps:
     - name: Submit job
@@ -186,7 +186,7 @@ jobs:
   
     name: Signal Indexing 
     runs-on: sz
-    needs: align
+    needs: fastqc
     
     steps:
     - name: Submit job
