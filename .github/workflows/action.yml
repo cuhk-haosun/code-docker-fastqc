@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Pipeline for nanopore DNA sequencing
+name: Pipeline for fastqc and multiqc
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -14,7 +14,7 @@ on:
       SCRIPT_PATH:
         description: 'Path for the bash script'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zhaoxing/code-nanopore'
+        default: '/share/home/grp-sunhao/liyixiao/code-script'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -23,7 +23,7 @@ on:
       INPUT_PATH:
         description: 'Inputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        default: '/share/home/grp-sunhao/liyixiao/data'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -32,7 +32,7 @@ on:
       OUTPUT_PATH:
         description: 'Outputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        default: '/share/home/grp-sunhao/liyixiao'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -41,7 +41,7 @@ on:
       JOB_NAME:
         description: 'Give yor job a name'
         # Default value if no value is explicitly provided
-        default: 'demo'
+        default: 'fastqc'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -61,37 +61,31 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  fastqc:
 
-  align:
-  
-    name: Alignment
-    runs-on: sz
-  
+    name: FastQC
+    runs-on: sz-cookie
+    
     steps:
-    - name: Submit alignment job
+    - name: Submit FastQC job
       uses: appleboy/ssh-action@v1.0.3
 
       env:
         SCRIPT_PATH: ${{ inputs.SCRIPT_PATH }}
         INPUT_PATH: ${{ inputs.INPUT_PATH }}
-        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}/mapped
+        OUTPUT_PATH: ${{ inputs.OUTPUT_PATH }}/fastqc_results
         JOB_NAME: ${{ inputs.JOB_NAME }}
         THREAD_NUM: ${{ inputs.THREAD_NUM }}
-      
-      with:
-        host: ${{ secrets.HOST_NGS }}
-        port: ${{ secrets.PORT_NGS }}
-        username: ${{ secrets.SSH_USERNAME_ZX }}
-        key: ${{ secrets.SSH_KEY_ZX }}
 
-        envs: SCRIPT_PATH,INPUT_PATH,OUTPUT_PATH,JOB_NAME,THREAD_NUM
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
         
         script: |
           cd $SCRIPT_PATH
-          bash align.sh
-          bash wait.sh
-
-
+          bash fastqc.sh
+          
+          
 
 
 
@@ -102,7 +96,7 @@ jobs:
   
     name: Sequencing Summary
     runs-on: sz
-    needs: align
+    needs: fastqc
     
     steps:
     - name: Submit job
