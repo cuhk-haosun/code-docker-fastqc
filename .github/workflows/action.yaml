@@ -14,7 +14,8 @@ on:
       INPUT_PATH:
         description: 'Inputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        #default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        default: '/data'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -23,7 +24,8 @@ on:
       OUTPUT_PATH:
         description: 'Outputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        #default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        default: '/data'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -73,8 +75,15 @@ jobs:
           THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
       run: |
           docker run -d --name my_container \
-            -e INPUT_PATH="${INPUT_PATH}" \
-            -e OUTPUT_PATH="${OUTPUT_PATH}" \
+            #-e INPUT_PATH="${INPUT_PATH}" \
+            #-e OUTPUT_PATH="${OUTPUT_PATH}" \
+            #-e JOB_NAME="${JOB_NAME}" \
+            #-e THREAD_NUM="${THREAD_NUM}" \
+            #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+            
+            -v ${{ github.workspace }}/data:/data \  # 确保数据卷正确挂载
+            -e INPUT_PATH="/data/${{ github.event.inputs.INPUT_PATH }}" \
+            -e OUTPUT_PATH="/data/${{ github.event.inputs.OUTPUT_PATH }}" \
             -e JOB_NAME="${JOB_NAME}" \
             -e THREAD_NUM="${THREAD_NUM}" \
             ghcr.io/cuhk-haosun/code-docker-fastqc:latest
