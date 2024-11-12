@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Pipeline for nanopore DNA sequencing
+name: Example Github action code for running docker 
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -56,7 +56,7 @@ jobs:
   
     name: Fastq Quality Control
     # CHANGE ME if the action is run in private repo
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
   
     steps:
     - name: Checkout repository
