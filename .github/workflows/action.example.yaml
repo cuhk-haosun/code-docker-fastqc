@@ -1,0 +1,86 @@
+# This is a basic workflow that is manually triggered
+
+name: Pipeline for nanopore DNA sequencing
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+
+  
+    # User inputs for the workflow
+    inputs:
+      INPUT_PATH:
+        description: 'Inputpath for the files'
+        # Default value if no value is explicitly provided
+        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      OUTPUT_PATH:
+        description: 'Outputpath for the files'
+        # Default value if no value is explicitly provided
+        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      JOB_NAME:
+        description: 'Give yor job a name'
+        # Default value if no value is explicitly provided
+        default: 'demo'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+      THREAD_NUM:
+        description: 'Thread number for alignment etc.'
+        # Default value if no value is explicitly provided
+        default: "8"
+        # Input has to be provided for the workflow to run
+        required: false
+        # The data type of the input
+        type: string
+
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  fastqc:
+  
+    name: Fastq Quality Control
+    # CHANGE ME if the action is run in private repo
+    runs-on: ubuntu
+  
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Pull Docker image
+      run: docker pull cuhkhaosun/base:latest
+
+    - name: Run container with environment variables
+      env:
+          INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
+          OUTPUT_PATH: ${{ github.event.inputs.OUTPUT_PATH }}
+          JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
+          THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
+      run: |
+          docker run -d --name my_container \
+            -e SCRIPT_PATH="${SCRIPT_PATH}" \
+            -e INPUT_PATH="${INPUT_PATH}" \
+            -e OUTPUT_PATH="${OUTPUT_PATH}" \
+            -e JOB_NAME="${JOB_NAME}" \
+            -e THREAD_NUM="${THREAD_NUM}" \
+            cuhkhaosun/base:latest
+
+    - name: Stop and remove container
+      run: |
+          docker stop my_container
+          docker rm my_container
