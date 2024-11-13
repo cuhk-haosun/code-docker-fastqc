@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Github action code for running docker fastqc 
+name: Github action for running docker fastqc 
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -67,6 +67,19 @@ jobs:
     - name: Pull Docker image
       run: docker pull ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
+    - name: Set up environment variables
+      run: |
+        echo "INPUT_PATH=${{ github.workspace }}/data/${{ github.event.inputs.input_filename }}" >> $GITHUB_ENV
+        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
+
+    - name: Run Docker container
+      run: |
+        docker run \
+          -v ${{ github.workspace }}/data:/data \
+          -e INPUT_PATH="${{ env.INPUT_PATH }}" \
+          -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
+          ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+
     - name: Run container with environment variables
       env:
           INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
@@ -81,7 +94,7 @@ jobs:
             #-e THREAD_NUM="${THREAD_NUM}" \
             #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
             
-            -v ${{ github.workspace }}/data:/data \  # 确保数据卷正确挂载
+            -v ${{ github.workspace }}/data:/data \
             -e INPUT_PATH="/data/${{ github.event.inputs.INPUT_PATH }}" \
             -e OUTPUT_PATH="/data/${{ github.event.inputs.OUTPUT_PATH }}" \
             -e JOB_NAME="${JOB_NAME}" \
