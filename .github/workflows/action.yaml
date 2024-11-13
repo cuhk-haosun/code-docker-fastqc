@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Example Github action code for running docker 
+name: Github action code for running docker fastqc 
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
