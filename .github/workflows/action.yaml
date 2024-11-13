@@ -80,26 +80,19 @@ jobs:
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
-    - name: Run container with environment variables
-      env:
-          INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
-          OUTPUT_PATH: ${{ github.event.inputs.OUTPUT_PATH }}
-          JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
-          THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
-      run: |
-          docker run -d --name my_container \
+    #- name: Run container with environment variables
+      #env:
+          #INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
+          #OUTPUT_PATH: ${{ github.event.inputs.OUTPUT_PATH }}
+          #JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
+          #THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
+      #run: |
+          #docker run -d --name my_container \
             #-e INPUT_PATH="${INPUT_PATH}" \
             #-e OUTPUT_PATH="${OUTPUT_PATH}" \
             #-e JOB_NAME="${JOB_NAME}" \
             #-e THREAD_NUM="${THREAD_NUM}" \
             #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
-            
-            -v ${{ github.workspace }}/data:/data \
-            -e INPUT_PATH="/data/${{ github.event.inputs.INPUT_PATH }}" \
-            -e OUTPUT_PATH="/data/${{ github.event.inputs.OUTPUT_PATH }}" \
-            -e JOB_NAME="${JOB_NAME}" \
-            -e THREAD_NUM="${THREAD_NUM}" \
-            ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
     - name: Fetch container logs
       run: docker logs my_container
