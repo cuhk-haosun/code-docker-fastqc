@@ -65,18 +65,18 @@ jobs:
     - name: Pull Docker image
       run: docker pull ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
-    - name: Set up environment variables
-      run: |
-        echo "INPUT_PATH=${{ github.workspace }}/data/${{ github.event.inputs.input_filename }}" >> $GITHUB_ENV
-        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
+    #- name: Set up environment variables
+      #run: |
+        #echo "INPUT_PATH=${{ github.workspace }}/data/${{ github.event.inputs.input_filename }}" >> $GITHUB_ENV
+        #echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
 
-    - name: Run Docker container
-      run: |
-        docker run -d --name my_container \
-          -v ${{ github.workspace }}/data:/mnt/in \
-          -e INPUT_PATH="${{ env.INPUT_PATH }}" \
-          -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
-          ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+    #- name: Run Docker container
+      #run: |
+        #docker run -d --name my_container \
+          #-v ${{ github.workspace }}/data:/mnt/in \
+          #-e INPUT_PATH="${{ env.INPUT_PATH }}" \
+          #-e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
+          #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
     - name: Run container with environment variables
       env:
