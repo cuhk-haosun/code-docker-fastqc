@@ -85,7 +85,7 @@ jobs:
           JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
           THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
       run: |
-          docker run -d --name my_container2 \
+          docker run -d --name my_container \
             -e INPUT_PATH="${INPUT_PATH}" \
             -e OUTPUT_PATH="${OUTPUT_PATH}" \
             -e JOB_NAME="${JOB_NAME}" \
