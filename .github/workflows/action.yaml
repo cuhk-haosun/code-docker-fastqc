@@ -75,7 +75,8 @@ jobs:
     - name: Run Docker container
       run: |
         docker run \
-          -v ${{ github.workspace }}/data:/data \
+          docker run -it --rm \
+          -v ${{ github.workspace }}/data:/mnt/in \
           -e INPUT_PATH="${{ env.INPUT_PATH }}" \
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
