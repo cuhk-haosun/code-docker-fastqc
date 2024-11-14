@@ -73,7 +73,7 @@ jobs:
         echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
     - name: Run Docker container
       run: |
-        docker run \
+        docker run -d --name my_container \
           -v ${{ github.workspace }}/data:/mnt/in \
           -e INPUT_PATH="${{ env.INPUT_PATH }}" \
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
