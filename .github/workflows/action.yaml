@@ -14,7 +14,8 @@ on:
       INPUT_PATH:
         description: 'Inputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        #default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
+        default: '/data'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -23,7 +24,8 @@ on:
       OUTPUT_PATH:
         description: 'Outputpath for the files'
         # Default value if no value is explicitly provided
-        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        #default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
+        default: '/data'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -67,16 +69,16 @@ jobs:
 
     - name: Setup Environment Variables
       run: |
-        echo "INPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
-        echo "OUTPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
+        echo "INPUT_PATH=${{ github.workspace }}/data/${{ github.event.inputs.input_filename }}" >> $GITHUB_ENV
+        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
 
     - name: Run Docker container
       run: |
         docker run -d --name my_container \
           -v ${{ github.workspace }}/data:/mnt/in \
           -v ${{ github.workspace }}/data:/mnt/out \
-          -e INPUT_PATH=/mnt/in \
-          -e OUTPUT_PATH=/mnt/out \
+          -e INPUT_PATH="${{ env.INPUT_PATH }}" \
+          -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
     #- name: Run container with environment variables
