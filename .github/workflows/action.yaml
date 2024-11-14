@@ -32,7 +32,7 @@ on:
       JOB_NAME:
         description: 'Give yor job a name'
         # Default value if no value is explicitly provided
-        default: 'demo'
+        default: 'fastqc'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -67,15 +67,17 @@ jobs:
 
     - name: Set up environment variables
       run: |
-        echo "INPUT_PATH=${{ github.workspace }}/data/${{ github.event.inputs.input_filename }}" >> $GITHUB_ENV
-        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
+        echo "INPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
+        echo "OUTPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
     - name: Run Docker container
       run: |
         docker run --name my_container \
           -v ${{ github.workspace }}/data:/mnt/in \
+          -v ${{ github.workspace }}/data:/mnt/out \
           -e INPUT_PATH="${{ env.INPUT_PATH }}" \
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+    
     #- name: Run container with environment variables
       #env:
           #INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
