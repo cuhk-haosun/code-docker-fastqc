@@ -74,8 +74,8 @@ jobs:
         docker run --name my_container \
           -v ${{ github.workspace }}/data:/mnt/in \
           -v ${{ github.workspace }}/data/output:/mnt/out \
-          -e INPUT_PATH="${{ env.INPUT_PATH }}" \
-          -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
+          #-e INPUT_PATH="${{ env.INPUT_PATH }}" \
+          #-e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
     
     #- name: Run container with environment variables
