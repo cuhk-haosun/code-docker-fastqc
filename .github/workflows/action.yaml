@@ -14,8 +14,7 @@ on:
       INPUT_PATH:
         description: 'Inputpath for the files'
         # Default value if no value is explicitly provided
-        #default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
-        default: '/data'
+        default: '/share/home/grp-sunhao/zhaoxing/pub/example/np.human.fastq.pico'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -24,8 +23,7 @@ on:
       OUTPUT_PATH:
         description: 'Outputpath for the files'
         # Default value if no value is explicitly provided
-        #default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
-        default: '/data'
+        default: '/share/home/grp-sunhao/zx/dev/np.human.fastq/output'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -85,7 +83,7 @@ jobs:
           #JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
           #THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
       #run: |
-          #docker run -d --name my_container \
+          #docker run --name my_container \
             #-e INPUT_PATH="${INPUT_PATH}" \
             #-e OUTPUT_PATH="${OUTPUT_PATH}" \
             #-e JOB_NAME="${JOB_NAME}" \
