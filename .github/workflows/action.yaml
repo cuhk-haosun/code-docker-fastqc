@@ -68,12 +68,12 @@ jobs:
     - name: Set up environment variables
       run: |
         echo "INPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
-        echo "OUTPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
+        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
     - name: Run Docker container
       run: |
         docker run --name my_container \
           -v ${{ github.workspace }}/data:/mnt/in \
-          -v ${{ github.workspace }}/data:/mnt/out \
+          -v ${{ github.workspace }}/data/output:/mnt/out \
           -e INPUT_PATH="${{ env.INPUT_PATH }}" \
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
@@ -96,11 +96,6 @@ jobs:
       run: |
           docker stop my_container
           docker rm my_container
-
-    - name: Clean up untracked files
-      run: |
-        git clean -fd
-        git reset --hard
           
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v6
