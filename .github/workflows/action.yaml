@@ -77,6 +77,10 @@ jobs:
           -e INPUT_PATH="${{ env.INPUT_PATH }}" \
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+
+    - name: Check output directory
+      run: |
+        ls -la ${{ github.workspace }}/data/output
     
     #- name: Run container with environment variables
       #env:
