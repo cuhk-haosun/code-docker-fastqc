@@ -78,6 +78,10 @@ jobs:
           -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
           ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
+    - name: Change ownership of output files
+      run: |
+        sudo chown -R runner:docker /home/runner/work/docker-fastqc/docker-fastqc/data/output
+
     - name: Check output directory
       run: |
         ls -la ${{ github.workspace }}/data/output
