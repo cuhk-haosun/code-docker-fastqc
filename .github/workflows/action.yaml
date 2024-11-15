@@ -93,9 +93,9 @@ jobs:
       run: |
           docker run --name my_container \
             -v ${INPUT_PATH}:/mnt/in \
-            -v ${INPUT_PATH}:/mnt/out \
-            -e INPUT_PATH="${INPUT_PATH}" \
-            -e OUTPUT_PATH="${OUTPUT_PATH}" \
+            -v ${OUTPUT_PATH}:/mnt/out \
+            -e INPUT_PATH="/mnt/in" \
+            -e OUTPUT_PATH="/mnt/out" \
             -e JOB_NAME="${JOB_NAME}" \
             -e THREAD_NUM="${THREAD_NUM}" \
             ghcr.io/cuhk-haosun/code-docker-fastqc:latest
