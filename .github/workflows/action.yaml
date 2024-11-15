@@ -65,40 +65,38 @@ jobs:
     - name: Pull Docker image
       run: docker pull ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
-    - name: Set up environment variables
-      run: |
-        echo "INPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
-        echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
-    - name: Run Docker container
-      run: |
-        docker run --name my_container \
-          -v ${{ github.workspace }}/data:/mnt/in \
-          -v ${{ github.workspace }}/data/output:/mnt/out \
-          -e INPUT_PATH="${{ env.INPUT_PATH }}" \
-          -e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
-          ghcr.io/cuhk-haosun/code-docker-fastqc:latest
-
-    - name: Change ownership of output files
-      run: |
-        sudo chown -R runner:docker /home/runner/work/docker-fastqc/docker-fastqc/data/output
-
-    - name: Check output directory
-      run: |
-        ls -la ${{ github.workspace }}/data/output
-    
-    #- name: Run container with environment variables
-      #env:
-          #INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
-          #OUTPUT_PATH: ${{ github.event.inputs.OUTPUT_PATH }}
-          #JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
-          #THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
+    #- name: Set up environment variables
       #run: |
-          #docker run --name my_container \
-            #-e INPUT_PATH="${INPUT_PATH}" \
-            #-e OUTPUT_PATH="${OUTPUT_PATH}" \
-            #-e JOB_NAME="${JOB_NAME}" \
-            #-e THREAD_NUM="${THREAD_NUM}" \
-            #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+        #echo "INPUT_PATH=${{ github.workspace }}/data" >> $GITHUB_ENV
+        #echo "OUTPUT_PATH=${{ github.workspace }}/data/output" >> $GITHUB_ENV
+    #- name: Run Docker container
+      #run: |
+        #docker run --name my_container \
+          #-v ${{ github.workspace }}/data:/mnt/in \
+          #-v ${{ github.workspace }}/data/output:/mnt/out \
+          #-e INPUT_PATH="${{ env.INPUT_PATH }}" \
+          #-e OUTPUT_PATH="${{ env.OUTPUT_PATH }}" \
+          #ghcr.io/cuhk-haosun/code-docker-fastqc:latest
+    #- name: Change ownership of output files
+      #run: |
+        #sudo chown -R runner:docker /home/runner/work/docker-fastqc/docker-fastqc/data/output
+    #- name: Check output directory
+      #run: |
+        #ls -la ${{ github.workspace }}/data/output
+    
+    - name: Run container with environment variables
+      env:
+          INPUT_PATH: ${{ github.event.inputs.INPUT_PATH }}
+          OUTPUT_PATH: ${{ github.event.inputs.OUTPUT_PATH }}
+          JOB_NAME: ${{ github.event.inputs.JOB_NAME }}
+          THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
+      run: |
+          docker run --name my_container \
+            -e INPUT_PATH="${INPUT_PATH}" \
+            -e OUTPUT_PATH="${OUTPUT_PATH}" \
+            -e JOB_NAME="${JOB_NAME}" \
+            -e THREAD_NUM="${THREAD_NUM}" \
+            ghcr.io/cuhk-haosun/code-docker-fastqc:latest
 
     - name: Stop and remove container
       run: |
