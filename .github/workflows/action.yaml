@@ -92,8 +92,10 @@ jobs:
           THREAD_NUM: ${{ github.event.inputs.THREAD_NUM }}
       run: |
           docker run --name my_container \
-            -e INPUT_PATH="${INPUT_PATH}" \
-            -e OUTPUT_PATH="${OUTPUT_PATH}" \
+            -v ${INPUT_PATH}:/mnt/in \
+            -v ${OUTPUT_PATH}:/mnt/out \
+            -e INPUT_PATH="/mnt/in" \
+            -e OUTPUT_PATH="/mnt/out" \
             -e JOB_NAME="${JOB_NAME}" \
             -e THREAD_NUM="${THREAD_NUM}" \
             ghcr.io/cuhk-haosun/code-docker-fastqc:latest
