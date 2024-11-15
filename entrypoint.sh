@@ -10,9 +10,6 @@ OUTPUT_DIR="/mnt/out"
 echo -e "\e[0;34mInfo: Running set.thread.num.sh to set THREAD_NUM...\e[0m"
 source /root/set.thread.num.sh
 
-# make-sure output dire
-mkdir -p "${OUTPUT_DIR}"
-
 
 # find and fastqc every .fastq.gz
 tmpfile=$(mktemp)
