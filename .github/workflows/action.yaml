@@ -47,6 +47,15 @@ on:
         # The data type of the input
         type: string
 
+      RUN_LOCATION:
+        description: 'Location of the runtime environment'
+        # Default value if no value is explicitly provided
+        default: 'ubuntu-latest'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -55,8 +64,7 @@ jobs:
   fastqc:
   
     name: Fastq Quality Control
-    # CHANGE ME if the action is run in private repo
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event.inputs.RUN_LOCATION }}
   
     steps:
     - name: Checkout repository
